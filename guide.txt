@@ -1,0 +1,22 @@
+- First scale, then rotate, then translate!
+
+- Local Space (Object Space) // Each objects origin 
+-> Model Matrix
+- World Space				 // All objects with respect to world origin
+-> View Matrix
+- View Space (Eye Space)     // Then what those objects look like through camera
+-> Projection Matrix
+- Clip Space			     // Then force through range -1,1 enc 3D
+-> Viewport Transform
+- Screen Space				 // Final window appearance through screen
+
+- Have present a shader than contains fragment and vertex handling information
+
+- Have a vertex array buffer object to point to individual vertex buffer objects and element buffer objects 
+
+- Have vertex buffer objects holding the vertex information
+
+- Have indicies inside the element buffer objects telling interpretation to the gpu
+
+- attach to a shader program the vertex and fragment shaders, then delete them after attached
+

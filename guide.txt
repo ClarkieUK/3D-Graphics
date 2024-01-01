@@ -1,5 +1,11 @@
 - First scale, then rotate, then translate!
 
+- Pitch is through y-plane
+
+- Yaw is through x-plane
+
+- Roll is around z-axis
+
 - Local Space (Object Space) // Each objects origin 
 -> Model Matrix
 - World Space				 // All objects with respect to world origin

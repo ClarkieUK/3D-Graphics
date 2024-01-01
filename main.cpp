@@ -7,6 +7,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height); // we create this function that glfw will call whenever the window is resized, 
@@ -20,6 +27,15 @@ void process_input(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);			   // GetKey returns either GLFW_RELEASE or GLFW_PRESS
 	}
 
+	const float cameraSpeed = 5.0f * deltaTime; // adjust accordingly 
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
 int main()
@@ -27,16 +43,12 @@ int main()
 	const float WIDTH		{ 800 };
 	const float HEIGHT		{ 600 };
 	//bool wiring{ true };
+	glm::vec3 x = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 y = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 z = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	glm::mat4 model = glm::mat4(1.0f); 
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)); 
-
-	glm::mat4 view = glm::mat4(1.0f);
-	// note that we're translating the scene in the reverse direction of where we want to move
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.0f), WIDTH / HEIGHT, 0.1f, 100.0f); //fov, box left, right,close,far.
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -117,20 +129,6 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
-	float texCoords[] =
-	{
-		1.0f,0.0f,
-		0.0f,0.0f,
-		0.5f,1.0f
-	};
-
-	// 0.0 is in centre of view port, y-axis positive up, x-axis positive right, z-axis postive 'in'
-	unsigned int indices[] =
-	{
-		0,1,3, // First (top right) triangle
-		1,2,3  // second (bottom left) triangle , this method removes overhead
-	};
-
 	// Vertex Array Object (VAO)
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -142,13 +140,6 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // contains n (points) * 3 (elements) * 4 (bytes) = 48
 
-
-	// Entity Buffer Object (EBO)
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);  // contains 6 points of 4 bytes 
-
 	// Indiciate openGL interpretation
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -157,7 +148,7 @@ int main()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	shader ourShader("C:\\Tools\\VS\\Code\\3D Graphics\\shader.vs", "C:\\Tools\\VS\\Code\\3D Graphics\\shader.fs");
+	shader ourShader("shader.vs", "shader.fs");
 
 	// Textures
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); // repeat texture for out of bounds
@@ -189,8 +180,7 @@ int main()
 	ourShader.use(); // Activate textures before setting uniforms
 	ourShader.setInt("texture1", 0);
 	ourShader.setInt("texture2", 1);
-	ourShader.setMat4("view", view);
-	ourShader.setMat4("projection", projection);
+	//ourShader.setMat4("view", view);
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -198,6 +188,10 @@ int main()
 	{
 		// Inputs
 		process_input(window);
+
+		float currentFrame = glfwGetTime(); 
+		deltaTime = currentFrame - lastFrame; 
+		lastFrame = currentFrame; 
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // State-set
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		  // State-use
@@ -207,8 +201,23 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
+		/*
+		glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
+		glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+		*/
+
 		ourShader.use();
+		//glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 15.0f) + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), WIDTH / HEIGHT, 0.1f, 100.0f); //fov, box left, right,close,far.
+		ourShader.setMat4("projection", projection);
+
+		glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		ourShader.setMat4("view", view); // position , target , up vector 
+
+		std::cout << cameraPos.z;
+
 		for (unsigned int i=0; i < 10; i++)
 		{
 			float time = float(glfwGetTime());

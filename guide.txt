@@ -1,4 +1,4 @@
-- First scale, then rotate, then translate!
+- First translate , rotate, scale, (typically for us).
 
 - Pitch is through y-plane
 
@@ -25,4 +25,3 @@
 - Have indicies inside the element buffer objects telling interpretation to the gpu
 
 - attach to a shader program the vertex and fragment shaders, then delete them after attached
-

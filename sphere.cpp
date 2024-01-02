@@ -8,6 +8,8 @@ sphere::sphere(const int radius, const int resolution)
 
 	// vertex
 	float x, y, z, xy;
+	float nx, ny, nz, lengthInv = 1.0f / radius;
+	float s, t;
 
 	// entity
 	int k1, k2;
@@ -28,7 +30,18 @@ sphere::sphere(const int radius, const int resolution)
 			vertices.push_back(x);
 			vertices.push_back(y);
 			vertices.push_back(z);
-			
+
+			nx = x * lengthInv;
+			ny = y * lengthInv;
+			nz = z * lengthInv;
+			normals.push_back(nx);
+			normals.push_back(ny);
+			normals.push_back(nz);
+
+			s = (float)j / resolution;
+			t = (float)i / resolution;
+			tex_coords.push_back(s);
+			tex_coords.push_back(t);
 		}
 	}
 	// entity
@@ -63,22 +76,62 @@ sphere::sphere(const int radius, const int resolution)
 			}
 		}
 	}
+	std::vector<float> result;
+	/*
+	for (size_t i = 0; i <= vertices.size() % 3; i++) {
+
+		result.push_back(vertices[3 * i]);
+		result.push_back(vertices[3 * i + 1]);
+		result.push_back(vertices[3 * i + 2]);
+
+		result.push_back(tex_coords[2 * i]);
+		result.push_back(tex_coords[2 * i + 1]);
+
+		result.push_back(normals[3 * i]);
+		result.push_back(normals[3 * i + 1]);
+		result.push_back(normals[3 * i + 2]);
+
+	}*/
+	for (size_t i = 0; i < vertices.size()/3; i += 1) {
+		// Vertices (p1x, p1y, p1z)
+		result.push_back(vertices[3*i]);
+		result.push_back(vertices[3*i + 1]);
+		result.push_back(vertices[3*i + 2]);
+
+		// Texture coordinates (t1x, t1y)
+		result.push_back(tex_coords[2*i]);
+		result.push_back(tex_coords[2*i + 1]);
+
+		// Normals (n1x, n1y, n1z)
+		result.push_back(normals[3*i]);
+		result.push_back(normals[3*i + 1]);
+		result.push_back(normals[3*i + 2]);
+	}
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * result.size(), result.data(), GL_STATIC_DRAW);
 
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * line_indices.size(), line_indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+
+	std::cout<<vertices.size() * sizeof(float) ;
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);						// position
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(sizeof(float)*3));		// texture
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(sizeof(float)*5));		// norm
 
 	glBindVertexArray(0); 
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 };
 
 sphere::~sphere()
@@ -89,8 +142,8 @@ sphere::~sphere()
 void sphere::draw(shader &shader)
 {
 	glBindVertexArray(VAO);
-	//glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
-	glDrawElements(GL_LINE_STRIP, line_indices.size(), GL_UNSIGNED_INT, (void*)0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
 	glBindVertexArray(0);
+	
 };
 

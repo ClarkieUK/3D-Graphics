@@ -161,7 +161,6 @@ int main()
 		glm::vec3(1.5f,  0.2f, -1.5f),
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};*/
-
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f),
 		glm::vec3(0.0f,  0.0f,  -10.0f),
@@ -175,6 +174,7 @@ int main()
 		glm::vec3(0.0f,  0.0f,  -200.0f),
 
 	};
+	
 	glm::vec2 points[] = {
 		glm::vec2(0.0f,0.0f),
 		glm::vec2(0.0f,1.0f),
@@ -184,13 +184,11 @@ int main()
 		glm::vec2(0.6f,0.4f),
 		glm::vec2(0.8f,0.2f),
 	};
-
 	for (int i = 0; i < 7; i++)
 	{
 		points[i] = glm::vec2(glm::normalize(points[i]).x, glm::normalize(points[i]).y);
 
 	};
-
 	float vertices_triangle[] = { 
 		0, 0, 0.0f, // origin
 		points[1].x, points[1].y, 0.0f, // top left
@@ -223,10 +221,8 @@ int main()
 	// Indiciate openGL interpretation
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
-	//glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	// Textures
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); // repeat texture for out of bounds
@@ -255,12 +251,10 @@ int main()
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(data);
 
-
-	shader ourShader("shader.vs", "shader.fs");
+	shader ourShader("sphere_shader.vs", "sphere_shader.fs");
 	ourShader.use(); // Activate textures before setting uniforms
 	ourShader.setInt("texture1", 0);
 	ourShader.setInt("texture2", 1);
-
 
 	// triangle testing
 	unsigned int VAO_TRIANGLE; 
@@ -280,8 +274,8 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
-	sphere sphere_one(3, 75);
-	sphere global_sphere(40, 75);
+	sphere sphere_one(3, 25);
+	sphere global_sphere(50, 75);
 
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
@@ -308,11 +302,11 @@ int main()
 		ourShader.setMat4("model", model);
 		glm::mat4 view = ourCamera.GetViewMatrix();
 		ourShader.setMat4("view", view); // position , target , up vector 
-		glm::mat4 projection = glm::perspective(glm::radians(ourCamera.Zoom), WIDTH / HEIGHT, 0.1f, 100.0f); //fov, box left, right,close,far.
+		glm::mat4 projection = glm::perspective(glm::radians(ourCamera.Zoom), WIDTH / HEIGHT, 0.1f, 1000.0f); //fov, box left, right,close,far.
 		ourShader.setMat4("projection", projection);
 
 		sphere_one.draw(ourShader);
-		global_sphere.draw(ourShader);
+		//global_sphere.draw(ourShader);
 
 		glBindVertexArray(VAO);
 		std::cout << "sens :" << ourCamera.MouseSensitivity << "\n";
@@ -329,12 +323,6 @@ int main()
 			ourShader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36); //GL_POINTS, GL_TRIANGLES, GL_LINE_STRIP.
 		}
-
-		glBindVertexArray(0);
-
-		glBindVertexArray(VAO_TRIANGLE);
-
-		glDrawElements(GL_LINE_STRIP, 12, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 		glfwPollEvents(); // do shit

@@ -7,15 +7,13 @@
 #include <glad/glad.h>
 #include <random>
 #include "shader.h"
-
-
 class sphere
 {
 	float RADIUS = 5.0f;
 	unsigned int RESOLUTION = 10;
+	shader sphere_shader(const char* vertexPath, const char* fragmentPath);
 
 private :
-
 	unsigned int VAO;
 	unsigned int VBO;
 	unsigned int EBO;

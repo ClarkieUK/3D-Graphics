@@ -36,11 +36,13 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="guide.txt" />
+    <Text Include="todo.txt" />
+    <Text Include="boilderplate.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.cpp" />
-    <None Include="shader.vs" />
-    <None Include="shader.fs" />
+    <None Include="sphere_shader.vs" />
+    <None Include="sphere_shader.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -61,6 +63,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="container.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="earthtexture.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

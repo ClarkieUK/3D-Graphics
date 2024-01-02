@@ -1,0 +1,5 @@
+- add texturing to sphere
+- put all models into oop
+- create skybox 
+- style all code
+- physics engine

@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-
+#include "scene.h"
 
 float last_x_position = 400, last_y_position = 300;
 float yaw = -90.0f;
@@ -77,33 +77,16 @@ int main()
 	const float WIDTH		{ 800 };
 	const float HEIGHT		{ 600 };
 
-	glm::vec3 x = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 y = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 z = glm::vec3(0.0f, 0.0f, 1.0f);
+	const char* SCENE_NAME = "3d Enviro";
 
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6); // define opengl version
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // working with core package
+	scene main_scene(WIDTH, HEIGHT, SCENE_NAME);
 
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "3D Enviro", NULL, NULL);
-	glfwMakeContextCurrent(window); // create window and let it know that is our target
-
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl; // (?) do glad shit
-		return -1;
-	} 
+	GLFWwindow* window = main_scene.getWindow();
 
 	glViewport(0, 0, WIDTH, HEIGHT); //opengl maps between -1 -> 1 so coord/100 * WIDTH gives transformed location
 									 //				-liam 22/12/23
 
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  // pass the function we defined for window resize
-																		// this must be done so glfw knows what to do in that event
-	glfwSetCursorPosCallback(window, mouse_callback); 
-	glfwSetScrollCallback(window, scroll_callback);
+	main_scene.addCallbacks(framebuffer_size_callback, mouse_callback, scroll_callback);
 
 	float vertices[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,

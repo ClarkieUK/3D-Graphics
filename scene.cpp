@@ -1,7 +1,8 @@
 #include "scene.h"
 
-scene::scene(int width, int height, char* name)
+scene::scene(const float width,const float height,const char* name)
 {
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6); // define opengl version
@@ -13,6 +14,15 @@ scene::scene(int width, int height, char* name)
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 };
+
+scene::~scene()
+{
+
+};
+
+GLFWwindow* scene::getWindow() {
+	return window;
+}
 
 
 void scene::addCallbacks(GLFWframebuffersizefun framebuffer_size_callback, GLFWcursorposfun mouse_callback, GLFWscrollfun scroll_callback){

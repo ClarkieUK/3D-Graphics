@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{d49a0a3c-b667-4c41-b144-0d95584e72d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Gui">
+      <UniqueIdentifier>{8f675553-4839-4df7-b779-640f28f30916}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,6 +37,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sphere.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,6 +73,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="world.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

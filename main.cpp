@@ -1,6 +1,7 @@
 #include "shader.h"
 #include "sphere.h"
 #include "camera.h"
+#include "scene.h"
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -42,7 +43,7 @@ void process_input(GLFWwindow* window)
 		ourCamera.ProcessKeyboard(BACKWARD, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		ourCamera.ProcessKeyboard(LEFT, delta_time);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)				// switch case depending on world
 		ourCamera.ProcessKeyboard(RIGHT, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		ourCamera.ProcessKeyboard(DOWN, delta_time);
@@ -74,12 +75,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 int main()
 {
+	scene main_scene(const int width = 800, const int height = 600, "3D Enviro 2");
+	
+
 	const float WIDTH		{ 800 };
 	const float HEIGHT		{ 600 };
-
-	glm::vec3 x = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 y = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 z = glm::vec3(0.0f, 0.0f, 1.0f);
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -255,24 +255,6 @@ int main()
 	ourShader.use(); // Activate textures before setting uniforms
 	ourShader.setInt("texture1", 0);
 	ourShader.setInt("texture2", 1);
-
-	// triangle testing
-	unsigned int VAO_TRIANGLE; 
-	glGenVertexArrays(1, &VAO_TRIANGLE);
-	glBindVertexArray(VAO_TRIANGLE);
-
-	unsigned int VBO_TRIANGLE;
-	glGenBuffers(1, &VBO_TRIANGLE);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_TRIANGLE);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_triangle), vertices_triangle, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
 	sphere sphere_one(3, 25);
 	sphere global_sphere(50, 75);

@@ -138,11 +138,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cube.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="text.cpp" />
+    <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="boilderplate.txt" />
@@ -156,9 +160,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cube.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />

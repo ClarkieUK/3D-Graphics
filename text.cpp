@@ -3,7 +3,12 @@
 text::text(std::string content, float x, float y, GLFWwindow* window)
     : _content(content), _x(x), _y(y), _window(window)
 {
+    FT_Library library;
 
+    if (FT_Init_FreeType(&library))
+    {
+		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+	}
 
 }
 

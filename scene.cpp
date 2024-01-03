@@ -1,6 +1,6 @@
 #include "scene.h"
 
-scene::scene(int width, int height, const char* name)
+scene::scene(int width, int height, char* name)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -14,7 +14,8 @@ scene::scene(int width, int height, const char* name)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 };
 
-void addCallbacks(GLFWframebuffersizefun framebuffer_size_callback, GLFWcursorposfun mouse_callback, GLFWscrollfun scroll_callback){
+
+void scene::addCallbacks(GLFWframebuffersizefun framebuffer_size_callback, GLFWcursorposfun mouse_callback, GLFWscrollfun scroll_callback){
 	
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);  // pass the function we defined for window resize
 	// this must be done so glfw knows what to do in that event

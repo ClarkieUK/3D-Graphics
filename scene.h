@@ -20,7 +20,7 @@ public :
 	GLFWwindow* window;
 
 	// Constructor
-	scene(int width, int height, const char* name);
+	scene(int width, int height, char* name);
 
 	// Callback functions
 	void addCallbacks(GLFWframebuffersizefun framebuffer_size_callback, GLFWcursorposfun mouse_callback, GLFWscrollfun scroll_callback);

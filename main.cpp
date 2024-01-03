@@ -75,7 +75,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 int main()
 {
-	scene main_scene(const int width = 800, const int height = 600, "3D Enviro 2");
+
+	scene main_scene(const int width = 800, const int height = 600,const char* title = "3D Enviro");
 	
 
 	const float WIDTH		{ 800 };

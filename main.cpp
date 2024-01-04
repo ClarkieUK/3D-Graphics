@@ -123,7 +123,7 @@ int main()
 	ourShader.setInt("texture2", 1);
 	
 	sphere sphere_one(3, 25);
-	sphere global_sphere(50, 75);
+	sphere global_sphere(50, 55);
 
 	text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
 
@@ -160,6 +160,8 @@ int main()
 		std::cout << "sens :" << main_camera.MouseSensitivity << "\n";
 		std::cout << "fov :" << main_camera.Zoom << "\n";
 		std::cout << "modified sens :" << main_camera.MouseSensitivity * (main_camera.Zoom/50) << "\n";
+
+
 
 		test_text.Render();
 

@@ -80,15 +80,10 @@ text::text(std::string content, float x, float y, float r, float g, float b, flo
     FT_Done_Face(face);
     FT_Done_FreeType(library);
 
-    // Add Blending
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(600), 0.0f, static_cast<float>(800));
+    //glm::mat4 projection = glm::perspective((float)glm::radians(45), 800.0f / 600.0f, 0.1f, 1000.0f);
     text_shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(text_shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    text_shader.setMat4("projection", projection);
 
     // configure VAO/VBO for texture quads
     glGenVertexArrays(1, &VAO);
@@ -105,7 +100,16 @@ text::text(std::string content, float x, float y, float r, float g, float b, flo
 
 void text::Render()
 {
+    // Add Blending
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     RenderText(_content, _x, _y, Characters, text_shader, _scale, _r, _g, _b);
+
+    // Add Blending
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_BLEND);
 }
 
 void text::RenderText(std::string text, float x, float y, std::map<char, Character> Characters, shader text_shader, float scale, float r, float g, float b)

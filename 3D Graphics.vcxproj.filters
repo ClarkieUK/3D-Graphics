@@ -36,6 +36,7 @@
     <ClCompile Include="scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cube.cpp">
     <ClCompile Include="text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +52,8 @@
     <None Include="sphere_shader.fs" />
     <None Include="text_shader.fs" />
     <None Include="text_shader.vs" />
+    <None Include="square_shader.vs" />
+    <None Include="square_shader.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -68,6 +71,7 @@
     <ClInclude Include="scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cube.h">
     <ClInclude Include="text.h">
       <Filter>Header Files</Filter>
     </ClInclude>

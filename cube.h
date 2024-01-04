@@ -1,4 +1,5 @@
 #pragma once
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <list>
@@ -9,13 +10,12 @@
 #include <GLFW/glfw3.h>
 #include <random>
 #include "shader.h"
-class sphere
+class cube
 {
 	float RADIUS = 5.0f;
 	unsigned int RESOLUTION = 10;
 
-
-private :
+private:
 
 	unsigned int VAO;
 	unsigned int VBO;
@@ -31,8 +31,8 @@ private :
 
 public:
 
-	sphere(const int radius, const int resolution);
-	~sphere();
-	void draw(shader &shader);
-	void update(); 
+	cube(const int radius, const int resolution);
+	~cube();
+	void draw(shader& shader);
+	void update();
 };

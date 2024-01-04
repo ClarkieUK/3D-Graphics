@@ -261,6 +261,8 @@ int main()
 	sphere sphere_one(3, 25);
 	sphere global_sphere(50, 75);
 
+	text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
+
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
@@ -273,6 +275,7 @@ int main()
 
 		glClearColor(0.11f, 0.11f, 0.11f, 1.0f); // State-set
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		  // State-use
+
 
 		glBindVertexArray(VAO);
 
@@ -293,9 +296,6 @@ int main()
 		//global_sphere.draw(ourShader);
 
 		glBindVertexArray(VAO);
-		std::cout << "sens :" << ourCamera.MouseSensitivity << "\n";
-		std::cout << "fov :" << ourCamera.Zoom << "\n";
-		std::cout << "modified sens :" << ourCamera.MouseSensitivity * (ourCamera.Zoom/50) << "\n";
 		
 		for (unsigned int i=0; i < 10; i++)
 		{
@@ -307,6 +307,8 @@ int main()
 			ourShader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36); //GL_POINTS, GL_TRIANGLES, GL_LINE_STRIP.
 		}
+
+		test_text.Render();
 
 		glBindVertexArray(0);
 		glfwPollEvents(); // do shit

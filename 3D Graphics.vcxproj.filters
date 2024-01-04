@@ -49,6 +49,8 @@
     <None Include="test.cpp" />
     <None Include="sphere_shader.vs" />
     <None Include="sphere_shader.fs" />
+    <None Include="text_shader.fs" />
+    <None Include="text_shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -82,7 +84,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="..\text-components\Roboto (1)\Roboto-Black.ttf">
+    <Font Include="Roboto-Black.ttf">
       <Filter>Resource Files</Filter>
     </Font>
   </ItemGroup>

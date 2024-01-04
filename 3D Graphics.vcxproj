@@ -155,6 +155,8 @@
     <None Include="sphere_shader.fs" />
     <None Include="sphere_shader.vs" />
     <None Include="test.cpp" />
+    <None Include="text_shader.fs" />
+    <None Include="text_shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -170,7 +172,7 @@
     <Image Include="earthtexture.png" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="..\text-components\Roboto (1)\Roboto-Black.ttf" />
+    <Font Include="Roboto-Black.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

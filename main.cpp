@@ -125,7 +125,7 @@ int main()
 	sphere sphere_one(3, 25);
 	sphere global_sphere(50, 75);
 
-	//text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
+	text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
@@ -161,7 +161,7 @@ int main()
 		std::cout << "fov :" << main_camera.Zoom << "\n";
 		std::cout << "modified sens :" << main_camera.MouseSensitivity * (main_camera.Zoom/50) << "\n";
 
-		//test_text.Render();
+		test_text.Render();
 
 		glBindVertexArray(0);
 		glfwPollEvents();					// do shit

@@ -125,7 +125,7 @@ int main()
 	sphere sphere_one(3, 25);
 	sphere global_sphere(50, 75);
 
-	text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
+	//text test_text("This is sample Text", 100.0f, 100.0f, 100.0f, 100.0f, 100.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
@@ -155,25 +155,13 @@ int main()
 
 		sphere_one.draw(ourShader);
 
-		glBindVertexArray(VAO);
-		
-		for (unsigned int i=0; i < 10; i++)
-		{
-			float time = float(glfwGetTime());
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			model = glm::rotate(model, glm::radians(time)*(i+1), glm::vec3(1.0f, 0.3f, 0.5f));
-			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-			ourShader.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36); //GL_POINTS, GL_TRIANGLES, GL_LINE_STRIP.
-		}
 		global_sphere.draw(ourShader);
 
 		std::cout << "sens :" << main_camera.MouseSensitivity << "\n";
 		std::cout << "fov :" << main_camera.Zoom << "\n";
 		std::cout << "modified sens :" << main_camera.MouseSensitivity * (main_camera.Zoom/50) << "\n";
 
-		test_text.Render();
+		//test_text.Render();
 
 		glBindVertexArray(0);
 		glfwPollEvents();					// do shit

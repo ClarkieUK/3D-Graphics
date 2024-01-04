@@ -20,7 +20,7 @@ bool first_mouse = true;
 float delta_time = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 
-camera ourCamera;
+camera main_camera;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -37,17 +37,17 @@ void process_input(GLFWwindow* window)
 
 	const float cameraSpeed = 5.0f * delta_time; // adjust accordingly 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(FORWARD, delta_time);
+		main_camera.ProcessKeyboard(FORWARD, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(BACKWARD, delta_time);
+		main_camera.ProcessKeyboard(BACKWARD, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(LEFT, delta_time);
+		main_camera.ProcessKeyboard(LEFT, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(RIGHT, delta_time);
+		main_camera.ProcessKeyboard(RIGHT, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(DOWN, delta_time);
+		main_camera.ProcessKeyboard(DOWN, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		ourCamera.ProcessKeyboard(UP, delta_time);
+		main_camera.ProcessKeyboard(UP, delta_time);
 };
 
 void mouse_callback(GLFWwindow* window, double x_position, double y_position)
@@ -64,12 +64,12 @@ void mouse_callback(GLFWwindow* window, double x_position, double y_position)
 	last_x_position = x_position;
 	last_y_position = y_position;
 
-	ourCamera.ProcessMouseMovement(xoffset, yoffset,true);
+	main_camera.ProcessMouseMovement(xoffset, yoffset,true);
 };
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	ourCamera.ProcessMouseScroll(yoffset);
+	main_camera.ProcessMouseScroll(yoffset);
 };
 
 int main()
@@ -88,124 +88,6 @@ int main()
 
 	main_scene.addCallbacks(framebuffer_size_callback, mouse_callback, scroll_callback);
 
-	float vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 3 pos , 2 tex
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	/*
-	glm::vec3 cubePositions[] = { 
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};*/
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(0.0f,  0.0f,  -10.0f),
-		glm::vec3(0.0f,  0.0f,  -25.0f),
-		glm::vec3(0.0f,  0.0f,  -50.0f),
-		glm::vec3(0.0f,  0.0f,  -75.0f),
-		glm::vec3(0.0f,  0.0f,  -100.0f),
-		glm::vec3(0.0f,  0.0f,  -125.0f),
-		glm::vec3(0.0f,  0.0f,  -150.0f),
-		glm::vec3(0.0f,  0.0f,  -175.0f),
-		glm::vec3(0.0f,  0.0f,  -200.0f),
-
-	};
-	
-	glm::vec2 points[] = {
-		glm::vec2(0.0f,0.0f),
-		glm::vec2(0.0f,1.0f),
-		glm::vec2(1.0f,0.0f),
-		glm::vec2(0.2f,0.8f),
-		glm::vec2(0.4f,0.6f),
-		glm::vec2(0.6f,0.4f),
-		glm::vec2(0.8f,0.2f),
-	};
-	for (int i = 0; i < 7; i++)
-	{
-		points[i] = glm::vec2(glm::normalize(points[i]).x, glm::normalize(points[i]).y);
-
-	};
-	float vertices_triangle[] = { 
-		0, 0, 0.0f, // origin
-		points[1].x, points[1].y, 0.0f, // top left
-		points[2].x, points[2].y, 0.0f, // bottom right
-		points[3].x, points[3].y, 0.0f,
-		points[4].x, points[4].y, 0.0f,
-		points[5].x, points[5].y, 0.0f,
-		points[6].x, points[6].y, 0.0f,
-	};
-	unsigned int indices[] = {
-		0,1,
-		0,2,
-		0,3,
-		0,4,
-		0,5,
-		0,6,
-	};
-
-	// Vertex Array Object (VAO)
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	// Vertex Buffer Object -> GPU (VBO)
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // contains n (points) * 3 (elements) * 4 (bytes) = 48
-
-	// Indiciate openGL interpretation
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	// Textures
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); // repeat texture for out of bounds
@@ -238,24 +120,6 @@ int main()
 	ourShader.use(); // Activate textures before setting uniforms
 	ourShader.setInt("texture1", 0);
 	ourShader.setInt("texture2", 1);
-
-	// triangle testing
-	unsigned int VAO_TRIANGLE; 
-	glGenVertexArrays(1, &VAO_TRIANGLE);
-	glBindVertexArray(VAO_TRIANGLE);
-
-	unsigned int VBO_TRIANGLE;
-	glGenBuffers(1, &VBO_TRIANGLE);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_TRIANGLE);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_triangle), vertices_triangle, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
 	sphere sphere_one(3, 25);
 	sphere global_sphere(50, 75);
@@ -273,8 +137,6 @@ int main()
 		glClearColor(0.11f, 0.11f, 0.11f, 1.0f); // State-set
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		  // State-use
 
-		glBindVertexArray(VAO);
-
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		glActiveTexture(GL_TEXTURE1);
@@ -283,34 +145,23 @@ int main()
 		ourShader.use();
 		glm::mat4 model = glm::mat4(1.0f);
 		ourShader.setMat4("model", model);
-		glm::mat4 view = ourCamera.GetViewMatrix();
-		ourShader.setMat4("view", view); // position , target , up vector 
-		glm::mat4 projection = glm::perspective(glm::radians(ourCamera.Zoom), WIDTH / HEIGHT, 0.1f, 1000.0f); //fov, box left, right,close,far.
+		glm::mat4 view = main_camera.GetViewMatrix();
+		ourShader.setMat4("view", view);	 // position , target , up vector 
+		glm::mat4 projection = glm::perspective(glm::radians(main_camera.Zoom), WIDTH / HEIGHT, 0.1f, 1000.0f); //fov, box left, right,close,far.
 		ourShader.setMat4("projection", projection);
 
 		sphere_one.draw(ourShader);
-		//global_sphere.draw(ourShader);
 
-		glBindVertexArray(VAO);
-		std::cout << "sens :" << ourCamera.MouseSensitivity << "\n";
-		std::cout << "fov :" << ourCamera.Zoom << "\n";
-		std::cout << "modified sens :" << ourCamera.MouseSensitivity * (ourCamera.Zoom/50) << "\n";
-		
-		for (unsigned int i=0; i < 10; i++)
-		{
-			float time = float(glfwGetTime());
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			model = glm::rotate(model, glm::radians(time)*(i+1), glm::vec3(1.0f, 0.3f, 0.5f));
-			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-			ourShader.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36); //GL_POINTS, GL_TRIANGLES, GL_LINE_STRIP.
-		}
+		global_sphere.draw(ourShader);
+
+		std::cout << "sens :" << main_camera.MouseSensitivity << "\n";
+		std::cout << "fov :" << main_camera.Zoom << "\n";
+		std::cout << "modified sens :" << main_camera.MouseSensitivity * (main_camera.Zoom/50) << "\n";
 
 		glBindVertexArray(0);
-		glfwPollEvents(); // do shit
-		glfwSwapBuffers(window); // try to remove artifacts by moving front buffer to back then back to front etc...
+		glfwPollEvents();					// do shit
+		glfwSwapBuffers(window);			// try to remove artifacts by moving front buffer to back then back to front etc...
 	}
-	glfwTerminate(); // terminate then close out of program
+	glfwTerminate();						// terminate then close out of program
 	return 0;
 }

@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cube.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -153,10 +154,13 @@
   <ItemGroup>
     <None Include="sphere_shader.fs" />
     <None Include="sphere_shader.vs" />
+    <None Include="square_shader.fs" />
+    <None Include="square_shader.vs" />
     <None Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cube.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="sphere.h" />

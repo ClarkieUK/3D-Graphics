@@ -12,7 +12,7 @@ sphere::sphere(const int radius, const int resolution)
 	float s, t;
 
 	// entity
-	int k1, k2;
+	int k1, k2 ;
 
 	// vertex
 	for (unsigned int i = 0; i <= resolution; ++i)		// each stack
@@ -76,36 +76,21 @@ sphere::sphere(const int radius, const int resolution)
 			}
 		}
 	}
-	std::vector<float> result;
-	/*
-	for (size_t i = 0; i <= vertices.size() % 3; i++) {
 
-		result.push_back(vertices[3 * i]);
-		result.push_back(vertices[3 * i + 1]);
-		result.push_back(vertices[3 * i + 2]);
-
-		result.push_back(tex_coords[2 * i]);
-		result.push_back(tex_coords[2 * i + 1]);
-
-		result.push_back(normals[3 * i]);
-		result.push_back(normals[3 * i + 1]);
-		result.push_back(normals[3 * i + 2]);
-
-	}*/
 	for (size_t i = 0; i < vertices.size()/3; i += 1) {
 		// Vertices (p1x, p1y, p1z)
-		result.push_back(vertices[3*i]);
-		result.push_back(vertices[3*i + 1]);
-		result.push_back(vertices[3*i + 2]);
+		interleaved_vertices.push_back(vertices[3*i]);
+		interleaved_vertices.push_back(vertices[3*i + 1]);
+		interleaved_vertices.push_back(vertices[3*i + 2]);
 
 		// Texture coordinates (t1x, t1y)
-		result.push_back(tex_coords[2*i]);
-		result.push_back(tex_coords[2*i + 1]);
+		interleaved_vertices.push_back(tex_coords[2*i]);
+		interleaved_vertices.push_back(tex_coords[2*i + 1]);
 
 		// Normals (n1x, n1y, n1z)
-		result.push_back(normals[3*i]);
-		result.push_back(normals[3*i + 1]);
-		result.push_back(normals[3*i + 2]);
+		interleaved_vertices.push_back(normals[3*i]);
+		interleaved_vertices.push_back(normals[3*i + 1]);
+		interleaved_vertices.push_back(normals[3*i + 2]);
 	}
 
 	glGenVertexArrays(1, &VAO);
@@ -113,7 +98,7 @@ sphere::sphere(const int radius, const int resolution)
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * result.size(), result.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleaved_vertices.size(), interleaved_vertices.data(), GL_STATIC_DRAW);
 
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -136,14 +121,25 @@ sphere::sphere(const int radius, const int resolution)
 
 sphere::~sphere()
 {
-	
+
+};
+
+void sphere::update()
+{
+
 };
 
 void sphere::draw(shader &shader)
 {
+	shader.use();
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	shader.setMat4("model", model);
+
 	glBindVertexArray(VAO);
+
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
+
 	glBindVertexArray(0);
-	
 };
 

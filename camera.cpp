@@ -35,6 +35,19 @@ void camera::ProcessKeyboard(Camera_Movement direction, float delta_time)
         Position += Up * velocity;
     if (direction == DOWN)
         Position -= Up * velocity;
+};
+
+void camera::ProcessKeyboard(Camera_State state, float delta_time)
+{
+   float velocity = MovementSpeed * delta_time;
+   if (state == SPEED_UP)
+   {
+       MovementSpeed = SPEED * 4;
+   };
+   if (state == SLOW_DOWN)
+   {
+       MovementSpeed = SPEED;
+   };
 
 };
 

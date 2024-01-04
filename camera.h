@@ -12,7 +12,11 @@ enum Camera_Movement {
     LEFT,
     RIGHT,
     UP,
-    DOWN
+    DOWN,
+};
+enum Camera_State {
+    SPEED_UP,
+    SLOW_DOWN
 };
 
 // Default camera values
@@ -68,6 +72,8 @@ public:
     glm::mat4 GetViewMatrix();
 
     void ProcessKeyboard(Camera_Movement direction, float delta_time);
+
+    void ProcessKeyboard(Camera_State state, float delta_time);
 
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 

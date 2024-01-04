@@ -49,6 +49,11 @@ void process_input(GLFWwindow* window)
 		main_camera.ProcessKeyboard(DOWN, delta_time);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		main_camera.ProcessKeyboard(UP, delta_time);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		main_camera.ProcessKeyboard(SPEED_UP, delta_time);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+		main_camera.ProcessKeyboard(SLOW_DOWN, delta_time);
+
 };
 
 void mouse_callback(GLFWwindow* window, double x_position, double y_position)

@@ -27,6 +27,7 @@ private :
 	std::vector<int> line_indices;
 	std::vector<float> normals;
 	std::vector<float> tex_coords;
+
 	glm::vec3 position;
 
 public:

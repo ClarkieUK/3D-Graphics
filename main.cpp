@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "scene.h"
+#include "text.h"
 
 float last_x_position = 400, last_y_position = 300;
 float yaw = -90.0f;
